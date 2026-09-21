@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>舞台演出提示编排</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="toolbar">
+    <h1>🎭 舞台提示编排</h1>
+    <div class="tool-group">
+      <label>轨道筛选
+        <select id="track-filter"><option value="__ALL__">全部轨道</option></select>
+      </label>
+    </div>
+    <div class="tool-group">
+      <button id="btn-add" title="在选中轨道末尾新建提示">＋ 新建提示</button>
+      <button id="btn-undo" disabled title="撤销最近一次成功调整">↩ 撤销</button>
+    </div>
+    <div class="tool-group">
+      <button id="btn-zoom-out" title="缩小">🔍−</button>
+      <button id="btn-zoom-in" title="放大">🔍＋</button>
+    </div>
+    <div class="hint">拖动提示块可整体级联移动其“完成后触发”的后继；锁定或同轨冲突将整次回滚并标红阻塞链。</div>
+  </header>
+
+  <main>
+    <section id="timeline-wrap">
+      <div id="timeline">
+        <div id="timeline-inner">
+          <div id="ruler-corner"></div>
+          <div id="ruler"></div>
+          <div id="tracks"></div>
+          <svg id="dep-layer"></svg>
+        </div>
+      </div>
+    </section>
+
+    <aside id="editor">
+      <h2>提示详情</h2>
+      <div id="editor-empty">点击时间轴上的提示块进行编辑</div>
+      <form id="editor-form" hidden>
+        <label>名称 <input id="f-name" required maxlength="60" /></label>
+        <label>类型
+          <select id="f-type">
+            <option value="light">💡 灯光</option>
+            <option value="sound">🔊 音效</option>
+          </select>
+        </label>
+        <label>轨道 <input id="f-track" list="track-list" required maxlength="40" /></label>
+        <datalist id="track-list"></datalist>
+        <label>开始（秒） <input id="f-start" type="number" min="0" step="0.1" required /></label>
+        <label>持续（秒） <input id="f-duration" type="number" min="0.1" step="0.1" required /></label>
+        <label class="row"><input id="f-locked" type="checkbox" /> 🔒 锁定（不可移动/级联）</label>
+        <div class="btn-row">
+          <button type="submit">保存</button>
+          <button type="button" id="btn-delete" class="danger">删除</button>
+        </div>
+        <h3>依赖（本提示完成后触发）</h3>
+        <ul id="dep-out"></ul>
+        <h3>被触发于</h3>
+        <ul id="dep-in"></ul>
+        <div class="btn-row">
+          <select id="dep-target"></select>
+          <button type="button" id="btn-add-dep">添加触发</button>
+        </div>
+      </form>
+    </aside>
+  </main>
+
+  <div id="toast" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>

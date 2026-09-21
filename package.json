@@ -1,0 +1,13 @@
+{
+  "name": "stage-cue-planner",
+  "version": "1.0.0",
+  "description": "舞台演出提示编排应用：时间轴编排灯光/音效提示，支持依赖级联移动、冲突回滚与撤销",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2"
+  }
+}
