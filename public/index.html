@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>舞台提示编排台</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🎭 舞台提示编排台</div>
+    <div class="top-actions">
+      <div id="trackFilter" class="track-filter" title="按轨道筛选显示"></div>
+      <button id="undoBtn" class="btn" disabled>↩ 撤销最近调整</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="form-panel">
+      <h2>新建提示</h2>
+      <form id="cueForm">
+        <label>名称
+          <input name="name" required placeholder="如：谢幕追光" />
+        </label>
+        <label>类型
+          <select name="type">
+            <option value="light">💡 灯光</option>
+            <option value="sound">🔊 音效</option>
+          </select>
+        </label>
+        <label>轨道
+          <input name="trackName" list="trackList" placeholder="选择或输入新轨道" required />
+          <datalist id="trackList"></datalist>
+        </label>
+        <label>开始 (s)
+          <input name="start" type="number" min="0" step="0.25" value="0" required />
+        </label>
+        <label>持续时长 (s)
+          <input name="duration" type="number" min="0" step="0.25" value="2" required />
+        </label>
+        <label class="check"><input type="checkbox" name="locked" /> 锁定</label>
+        <button class="btn primary" type="submit">添加到时间轴</button>
+      </form>
+    </section>
+
+    <section class="timeline-panel">
+      <div class="timeline-head">
+        <h2>时间轴（拖动提示以级联移动后继项）</h2>
+        <div class="legend">
+          <span class="dot light"></span>灯光
+          <span class="dot sound"></span>音效
+          <span class="dep-sample">→</span> 完成后触发
+          <span class="lock-sample">🔒</span> 锁定项
+        </div>
+      </div>
+      <div id="timelineScroll" class="timeline-scroll">
+        <div id="timeline" class="timeline">
+          <div class="ruler"><canvas id="rulerCanvas"></canvas></div>
+          <div id="lanes"></div>
+          <svg id="edgeLayer" class="edge-layer"></svg>
+        </div>
+      </div>
+    </section>
+
+    <aside id="inspector" class="inspector hidden">
+      <button id="closeInspector" class="close">×</button>
+      <h2>提示详情</h2>
+      <form id="editForm">
+        <label>名称<input name="name" required /></label>
+        <label>类型
+          <select name="type">
+            <option value="light">💡 灯光</option>
+            <option value="sound">🔊 音效</option>
+          </select>
+        </label>
+        <label>轨道<select name="trackId"></select></label>
+        <label>开始 (s)<input name="start" type="number" min="0" step="0.25" required /></label>
+        <label>持续时长 (s)<input name="duration" type="number" min="0" step="0.25" required /></label>
+        <label class="check"><input type="checkbox" name="locked" /> 锁定</label>
+        <fieldset>
+          <legend>完成后触发依赖（选择本提示的前置）</legend>
+          <div id="predList" class="pred-list"></div>
+        </fieldset>
+        <div class="inspector-actions">
+          <button type="submit" class="btn primary">保存</button>
+          <button type="button" id="deleteBtn" class="btn danger">删除</button>
+        </div>
+      </form>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

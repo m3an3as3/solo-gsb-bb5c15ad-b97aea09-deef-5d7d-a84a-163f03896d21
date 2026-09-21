@@ -1,0 +1,16 @@
+{
+  "name": "stage-cue-board",
+  "version": "1.0.0",
+  "description": "舞台演出提示编排台 —— 灯光/音效提示时间轴、依赖拓扑级联移动",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2"
+  }
+}
